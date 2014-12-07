@@ -2,22 +2,34 @@
 	"author": "Ridwan Abadi, Erwin Yudha Pratama, Sarifuddin Ahmad",
 	"name": "synck",
 	"description": "Javascript database syncrhonisator.",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"repository": {
 		"url": "https://github.com/devaby/Synck"
 	},
-	"main": "./bin/synck",
+	"main": "./bin/synck.js",
 	"lib": {
 		"analyzer": "./lib/analyzer/analyzer",
 		"populator": "./lib/populator/populator"
 	},
 	"dependencies": {
-		"async": "^0.9.0",
-		"colors": "^1.0.3",
-		"lodash": "^2.4.1",
-		"moment": "^2.8.3",
-		"q": "^1.0.1"
+		"async": "0.9.0",
+		"colors": "1.0.3",
+		"lodash": "2.4.1",
+		"moment": "2.8.3",
+		"q": "1.0.1"
 	},
-	"devDependencies": {},
-	"optionalDependencies": {}
+	"devDependencies": {
+		"assert": "1.1.x"
+	},
+	"optionalDependencies": {},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/devaby/synck.git"
+	},
+	"author": "Ridwan Abadi",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/devaby/synck/issues"
+	},
+	"homepage": "https://github.com/devaby/synck"
 }
