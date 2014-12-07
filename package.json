@@ -1,15 +1,54 @@
 {
-	"author": "Ridwan Abadi, Erwin Yudha Pratama, Sarifuddin Ahmad",
+	"author": "Ridwan Abadi",
 	"name": "synck",
+	"homepage": "https://github.com/devaby/synck",
 	"description": "Javascript database syncrhonisator.",
-	"version": "0.0.2",
+	"version": "0.0.3",
+	"contributors": [{
+		"name": "Erwin Yudha Pratama",
+		"email": "erween.pratama@gmail.com",
+		"url": ""
+	}, {
+		"name": "Sariffudin Achmad",
+		"email": "sariffudin@syatir.com",
+		"url": ""
+	}, {
+		"name": "Muhammad Arief",
+		"email": "m.ar13f@gmail.com",
+		"url": "http://www.ikampret.com"
+	}, {
+		"name": "Achmad Zuhdi",
+		"email": "ahmad.zuhdi.y@gmail.com",
+		"url": ""
+	}, {
+		"name": "Imam Tauhid",
+		"email": "imam.tauhid@gmail.com",
+		"url": ""
+	}],
+	"keywords": [
+		"database",
+		"table",
+		"sync",
+		"synchronization"
+	],
 	"repository": {
-		"url": "https://github.com/devaby/Synck"
+		"type": "git",
+		"url": "https://github.com/devaby/synck.git"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/devaby/synck/issues"
 	},
 	"main": "./bin/synck.js",
+	"bin": {
+		"synck": "./bin/synck.js"
+	},
 	"lib": {
-		"analyzer": "./lib/analyzer/analyzer",
-		"populator": "./lib/populator/populator"
+		"analyzer": "./lib/analyzer/analyzer.js",
+		"populator": "./lib/populator/populator.js"
+	},
+	"scripts": {
+		"test": "npm run test-build"
 	},
 	"dependencies": {
 		"async": "0.9.0",
@@ -21,15 +60,5 @@
 	"devDependencies": {
 		"assert": "1.1.x"
 	},
-	"optionalDependencies": {},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/devaby/synck.git"
-	},
-	"author": "Ridwan Abadi",
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/devaby/synck/issues"
-	},
-	"homepage": "https://github.com/devaby/synck"
+	"optionalDependencies": {}
 }
