@@ -41,13 +41,12 @@
 	},
 	"main": "./bin/synck.js",
 	"bin": {
-		"synck": "./bin/synck.js"
-	},
-	"lib": {
+		"synck": "./bin/synck.js",
 		"analyzer": "./lib/analyzer/analyzer.js",
 		"populator": "./lib/populator/populator.js"
 	},
 	"scripts": {
+		"start": "nodemon ./bin/synck.js",
 		"test": "npm run test-build"
 	},
 	"dependencies": {
@@ -55,10 +54,16 @@
 		"colors": "1.0.3",
 		"lodash": "2.4.1",
 		"moment": "2.8.3",
+		"events": "1.0.2",
 		"q": "1.0.1"
 	},
 	"devDependencies": {
-		"assert": "1.1.x"
+		"assert": "1.1.x",
+		"nodemon": "1.2.x"
 	},
-	"optionalDependencies": {}
+	"optionalDependencies": {},
+	"engines": {
+		"node": "*",
+		"npm": "*"
+	}
 }
