@@ -281,12 +281,12 @@
 
 			console.log(typeof options)
 
-			if(typeof options !== 'array'){
+			// if(typeof options !== 'array'){
 
-				log.message('Configuration data not an array ', error)
-				return false
+			// 	log.message('Configuration data not an array ', error)
+			// 	return false
 
-			}
+			// }
 
 			analyzer.config(options)
 
