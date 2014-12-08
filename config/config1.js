@@ -12,9 +12,9 @@ module.exports = {
 			'column': ['id'],
 			'function': {
 
-				'count': function() {
+				'count': function(callback) {
 					
-					return 2
+					callback(null, 2)
 
 				},
 				
@@ -101,9 +101,9 @@ module.exports = {
 			'column': ['id'],
 			'function': {
 
-				'count': function(){
+				'count': function(callback){
 
-					return 1
+					callback(null, 1)
 
 				},
 
