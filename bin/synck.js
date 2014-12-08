@@ -49,7 +49,7 @@
 		 * @type {Array}
 		 */
 		// var boots = ['listener', 'database', 'validator', 'embark']
-		var boots = ['grabber', 'populator']
+		var boots = ['analyzer', 'grabber', 'populator']
 
 		/**
 		 * [type description]
@@ -109,7 +109,7 @@
 		 * [utils description]
 		 * @type {Object}
 		 */
-		var analyzer = require('./../lib/analyzer/analyzer.js')
+		var analyzer = require('./../lib/analyzer/analyzer.js')()
 
 		/**
 		 * [utils description]
@@ -276,12 +276,19 @@
 
 			log.message('Initiate synck.validator method')
 
-			if (typeof populator !== "function") {
+			console.log('options', options)
+			console.log('analyzer', analyzer)
 
-				log.message('Populator is error, it is not a function', 'error')
+			console.log(typeof options)
 
-				error.push('Populator is error, it is a ' + populator)
+			if(typeof options !== 'array'){
+
+				log.message('Configuration data not an array ', error)
+				return false
+
 			}
+
+			analyzer.config(options)
 
 			return synck
 		}
@@ -316,6 +323,18 @@
 		synck.populator = function() {
 
 			populator().init()
+
+			return synck
+
+		}
+
+		/**
+		 * initialize populator
+		 * @type {function}
+		 */
+		synck.analyzer = function() {
+
+			analyzer.init()
 
 			return synck
 
@@ -395,8 +414,6 @@
 
 			synck.prototype.emit('newConfig')
 
-			console.log(synck)
-
 			if (_.size(error) > 0) {
 
 				return log.message(function () {
@@ -414,10 +431,11 @@
 		eventmap.newConfig = function () {
 
 			log.message('event "newConfig" is called!!!!')
+			
 		}
 
-		return synck.init()
+		return synck
 
-	}()
+	}
 
 }).call(this)

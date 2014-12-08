@@ -52,7 +52,7 @@
     "populator": "./lib/populator/populator.js"
   },
   "scripts": {
-    "start": "nodemon ./bin/synck.js",
+    "start": "nodemon ./bin/index.js",
     "test": "npm run test-build"
   },
   "dependencies": {
