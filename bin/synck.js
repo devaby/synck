@@ -48,7 +48,8 @@
 		 * [booting description]
 		 * @type {Array}
 		 */
-		var boots = ['listener', 'database', 'validator', 'embark']
+		// var boots = ['listener', 'database', 'validator', 'embark']
+		var boots = ['grabber', 'populator']
 
 		/**
 		 * [type description]
@@ -129,6 +130,18 @@
 		var log = require('./../lib/logger/logger.js')
 
 		/**
+		 * event emitter library
+		 * @type {Object}
+		 */
+		var events = require('./../lib/event/event.js')
+
+		/**
+		 * Data Grabber library
+		 * @type {[type]}
+		 */
+		var grabber = require('./../lib/grabber/grabber.js')
+
+		/**
 		 * [booting description]
 		 * @type {Array}
 		 */
@@ -161,9 +174,11 @@
 
 			async.eachSeries(boots, function (method, callback) {
 
-				log.message('Initiating ' + boots[count], 'section', true)
+				// console.log(method)
 
-				console.log(method)
+				// log.message('Initiating ' + boots[count], 'section', true)
+
+				// console.log(method)
 
 				if (_.isFunction(synck[method])) {
 
@@ -197,7 +212,7 @@
 				}
 				else {
 
-					synck.inherit()
+					// synck.inherit()
 				}
 			})
 
@@ -283,12 +298,38 @@
 		}
 
 		/**
+		 * initialize data grabber
+		 * @type {[type]}
+		 */
+		synck.grabber = function() {
+
+			grabber().init()
+
+			return synck
+
+		}
+
+		/**
+		 * initialize populator
+		 * @type {function}
+		 */
+		synck.populator = function() {
+
+			populator().init()
+
+			return synck
+
+		}
+
+		/**
 		 * [listener description]
 		 * @return {[type]} [description]
 		 */
 		synck.listener = function () {
 
 			log.message('Initiate synck.listener method')
+
+			return synck
 
 			util.inherits(synck, events)
 
@@ -304,18 +345,26 @@
 
 						var current = _.findKey(cores[key])
 
-						console.log(typeof current());
+						try {
 
-						_.findKey(cores[key]).prototype.on(values, eventmap[values])
+							console.log(typeof current());
 
-						console.log(values)
+							_.findKey(cores[key]).prototype.on(values, eventmap[values])
+
+							console.log(values)
+
+						} catch (e) {
+
+							log.message(e, 'error')							
+
+						}
+
 					}
 				})
 			})
 
 			console.log(storage)
 
-			return synck
 		}
 
 		/**
