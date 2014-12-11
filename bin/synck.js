@@ -162,7 +162,7 @@
 		 * [code description]
 		 * @type {[type]}
 		 */
-		log.message('Synck (code: awidin) is running', 'section', true)
+		log.message('Main :: Synck (code: awidin) is running', 'section', true)
 
 		/**
 		 * [init description]
@@ -274,12 +274,14 @@
 		 */
 		synck.config = function (options) {
 
-			log.message('Initiate synck.validator method')
+			log.message('Main :: Set Config')
 
-			console.log('options', options)
-			console.log('analyzer', analyzer)
+			analyzer.setConfig(options)
 
-			console.log(typeof options)
+			// console.log('options', options)
+			// console.log('analyzer', analyzer)
+
+			// console.log(typeof options)
 
 			// if(typeof options !== 'array'){
 
@@ -288,7 +290,7 @@
 
 			// }
 
-			analyzer.config(options)
+			// analyzer.config(options)
 
 			return synck
 		}
@@ -308,7 +310,7 @@
 		 * initialize data grabber
 		 * @type {[type]}
 		 */
-		synck.grabber = function() {
+		synck.grabber = function () {
 
 			grabber().init()
 
@@ -320,7 +322,7 @@
 		 * initialize populator
 		 * @type {function}
 		 */
-		synck.populator = function() {
+		synck.populator = function () {
 
 			populator().init()
 
@@ -332,7 +334,7 @@
 		 * initialize populator
 		 * @type {function}
 		 */
-		synck.analyzer = function() {
+		synck.analyzer = function () {
 
 			analyzer.init()
 
@@ -372,9 +374,10 @@
 
 							console.log(values)
 
-						} catch (e) {
+						}
+						catch (e) {
 
-							log.message(e, 'error')							
+							log.message(e, 'error')
 
 						}
 
@@ -431,7 +434,7 @@
 		eventmap.newConfig = function () {
 
 			log.message('event "newConfig" is called!!!!')
-			
+
 		}
 
 		return synck
