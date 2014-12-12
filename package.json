@@ -3,7 +3,7 @@
 	"name": "synck",
 	"homepage": "https://github.com/devaby/synck",
 	"description": "Javascript database syncrhonisator.",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"contributors": [{
 		"name": "Erwin Yudha Pratama",
 		"email": "erween.pratama@gmail.com",
