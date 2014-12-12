@@ -1,5 +1,9 @@
 (function () {
 
+	'use strict';
+
+	var self
+
 	module.exports = function () {
 
 		/**
@@ -220,55 +224,6 @@
 		}
 
 		/**
-		 * [validator description]
-		 *
-		 * var opt = {
-
-		table: {
-
-			from: function (callback) {
-
-				return db.table('dbo.t_perioda').count('id', 'mssql').then(function (data) {
-
-					callback(null, data['data'][0]['count(*)'])
-
-				}, function (err) {
-
-					console.log('MSSQL ERROR: ', err)
-
-					callback(err, 'data')
-				})
-			},
-
-			to: function (callback) {
-
-				return db.table('dbo._toll_boothtasks').count('id', 'mssql').then(function (data) {
-
-					callback(null, data['data'][0]['count(*)'])
-
-				}, function (err) {
-
-					console.log('MSSQL ERROR: ', err)
-
-					callback(err, 'data')
-				})
-			},
-
-			pivot: function (callback) {
-
-				return db.table('_mhi_batchs').count('*').then(function (data) {
-
-					callback(null, data[0]['count(*)'])
-
-				}, function (err) {
-
-					console.log('ERROR: ', err)
-
-					callback(err, 'data')
-				})
-			},
-		}
-	}
 		 *
 		 * @return {[type]} [description]
 		 */
@@ -277,20 +232,6 @@
 			log.message('Main :: Set Config')
 
 			analyzer.setConfig(options)
-
-			// console.log('options', options)
-			// console.log('analyzer', analyzer)
-
-			// console.log(typeof options)
-
-			// if(typeof options !== 'array'){
-
-			// 	log.message('Configuration data not an array ', error)
-			// 	return false
-
-			// }
-
-			// analyzer.config(options)
 
 			return synck
 		}
@@ -437,7 +378,12 @@
 
 		}
 
-		return synck
+		if (!self) {
+
+			self = synck
+		}
+
+		return self
 
 	}
 
