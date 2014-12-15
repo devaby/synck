@@ -2,171 +2,104 @@
 
 	'use strict';
 
-	var self
+	/**
+	 * Synck main object to export
+	 * @type {Object}
+	 */
+	var synck = {}
 
+	/**
+	 * Storing all configuration of object
+	 * The key are the config name
+	 * The value are the whole configs variables of object
+	 * @type {Array}
+	 */
+	var configs = []
+
+	/**
+	 * Var to define if all the synck workers
+	 * are successfully booted with no problem
+	 * @type {Boolean}
+	 */
+	var bootable = false
+
+	/**
+	 * Synck main object to export
+	 * @type {Object}
+	 */
+	var options = {}
+
+	/**
+	 * [error description]
+	 * @type {Array}
+	 */
+	var errors = []
+
+	/**
+	 * [error description]
+	 * @type {Array}
+	 */
+	var tasks = []
+
+	/**
+	 * [emitter description]
+	 * @type {[type]}
+	 */
+	var emitter = null
+
+	/**
+	 * [booting description]
+	 * @type {Array}
+	 */
+	var boots = ['analyzer', 'grabber']
+
+	/**
+	 * [type description]
+	 * @type {String}
+	 */
+	var tables = ['configs', 'tasks', 'events']
+
+	/**
+	 * [utils description]
+	 * @type {Object}
+	 */
+	var __ = require('lodash')
+
+	/**
+	 * [utils description]
+	 * @type {Object}
+	 */
+	var async = require('async')
+
+	/**
+	 * [utils description]
+	 * @type {Object}
+	 */
+	var analyzer = require('./../lib/analyzer/analyzer.js')
+
+	/**
+	 * [utils description]
+	 * @type {Object}
+	 */
+	var log = require('./../lib/logger/logger.js')
+
+	/**
+	 * event emitter library
+	 * @type {Object}
+	 */
+	var events = require('./../lib/event/event.js')
+
+	/**
+	 * Data Grabber library
+	 * @type {[type]}
+	 */
+	var grabber = require('./../lib/grabber/grabber.js')
+
+	/**
+	 * Synck main code base to returned when required
+	 * @return {[type]} [description]
+	 */
 	module.exports = function () {
-
-		/**
-		 * Synck main object to export
-		 * @type {Object}
-		 */
-		var s = this
-
-		/**
-		 * Synck main object to export
-		 * @type {Object}
-		 */
-		var synck = {}
-
-		/**
-		 * Synck main object to export
-		 * @type {Object}
-		 */
-		var options = {}
-
-		/**
-		 * [error description]
-		 * @type {Array}
-		 */
-		var error = []
-
-		/**
-		 * [error description]
-		 * @type {Array}
-		 */
-		var caller = null
-
-		/**
-		 * [error description]
-		 * @type {Array}
-		 */
-		var eventmap = {}
-
-		/**
-		 * [emitter description]
-		 * @type {[type]}
-		 */
-		var emitter = null
-
-		/**
-		 * [booting description]
-		 * @type {Array}
-		 */
-		// var boots = ['listener', 'database', 'validator', 'embark']
-		var boots = ['analyzer', 'grabber', 'populator']
-
-		/**
-		 * [type description]
-		 * @type {String}
-		 */
-		var tables = ['configs', 'tasks', 'events']
-
-		/**
-		 * [error description]
-		 * @type {Array}
-		 */
-		var listening = ['newConfig']
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var q = require('q')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var inherit = require('inherit')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var util = require('util')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var moment = require('moment')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var _ = require('lodash')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var async = require('async')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var events = require('events').EventEmitter
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var analyzer = require('./../lib/analyzer/analyzer.js')()
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var populator = require('./../lib/populator/populator.js')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var storage = require('./../lib/database/database.js')
-
-		/**
-		 * [utils description]
-		 * @type {Object}
-		 */
-		var log = require('./../lib/logger/logger.js')
-
-		/**
-		 * event emitter library
-		 * @type {Object}
-		 */
-		var events = require('./../lib/event/event.js')
-
-		/**
-		 * Data Grabber library
-		 * @type {[type]}
-		 */
-		var grabber = require('./../lib/grabber/grabber.js')
-
-		/**
-		 * [booting description]
-		 * @type {Array}
-		 */
-		var cores = [{
-
-			'analyzer': analyzer
-
-		}, {
-
-			'populator': populator
-
-		}, {
-
-			'storage': storage
-		}]
-
-		/**
-		 * [code description]
-		 * @type {[type]}
-		 */
-		log.message('Main :: Synck (code: awidin) is running', 'section', true)
 
 		/**
 		 * [init description]
@@ -174,49 +107,41 @@
 		 */
 		synck.init = function () {
 
-			var count = 0
+			if (!bootable) return synck.run()
 
-			async.eachSeries(boots, function (method, callback) {
+			return synck
+		}
 
-				// console.log(method)
+		/**
+		 * [init description]
+		 * @return {[type]} [description]
+		 */
+		synck.run = function () {
 
-				// log.message('Initiating ' + boots[count], 'section', true)
+			bootable = true
 
-				// console.log(method)
+			async.eachSeries(boots, function (item, callback) {
 
-				if (_.isFunction(synck[method])) {
+				if (__.isFunction(synck[item])) {
 
-					synck[method]()
+					log.message('Main :: Booting ' + item)
+
+					synck[item](callback)
 				}
-
-				// promise.then(function (data) {
-
-				// 	if (!data) {
-
-				// 		callback(data)
-
-				// 	}
-				// 	else {
-
-				// 		callback()
-				// 	}
-
-				// })
-
-				count++
-
-				callback()
 
 			}, function (err) {
 
 				if (err) {
 
-					log.message('Something\' is failed cancel booting', 'error')
-
+					log.message('Main :: Synck Failed To Boot', 'error')
 				}
 				else {
 
-					// synck.inherit()
+					log.message('Main :: Synck Has Booted')
+
+					log.message('Main :: Telling Analyzer To Run')
+
+					analyzer.run()
 				}
 			})
 
@@ -229,162 +154,54 @@
 		 */
 		synck.config = function (options) {
 
-			log.message('Main :: Set Config')
+			var found = __.find(configs, {
 
-			analyzer.setConfig(options)
+				name: options.name
+			})
+
+			if (__.isObject(options) && __.isUndefined(found)) {
+
+				log.message('Main :: Set Config For ' + options.name)
+
+				configs.push(options)
+			}
 
 			return synck
-		}
-
-		/**
-		 * [listener description]
-		 * @return {[type]} [description]
-		 */
-		synck.database = function () {
-
-			log.message('Initiate synck.database method')
-
-			return storage().init(tables)
 		}
 
 		/**
 		 * initialize data grabber
 		 * @type {[type]}
 		 */
-		synck.grabber = function () {
+		synck.grabber = function (callback) {
 
-			grabber().init()
+			grabber().init(callback)
 
 			return synck
-
 		}
 
 		/**
 		 * initialize populator
 		 * @type {function}
 		 */
-		synck.populator = function () {
+		synck.analyzer = function (callback) {
 
-			populator().init()
+			analyzer = analyzer()
 
-			return synck
+			analyzer.init(function () {
 
-		}
-
-		/**
-		 * initialize populator
-		 * @type {function}
-		 */
-		synck.analyzer = function () {
-
-			analyzer.init()
-
-			return synck
-
-		}
-
-		/**
-		 * [listener description]
-		 * @return {[type]} [description]
-		 */
-		synck.listener = function () {
-
-			log.message('Initiate synck.listener method')
-
-			return synck
-
-			util.inherits(synck, events)
-
-			_.each(cores, function (value, key) {
-
-				util.inherits(value, events)
-
-				_.each(listening, function (values) {
-
-					console.log(_.findKey(cores[key]));
-
-					if (typeof eventmap[values] === "function") {
-
-						var current = _.findKey(cores[key])
-
-						try {
-
-							console.log(typeof current());
-
-							_.findKey(cores[key]).prototype.on(values, eventmap[values])
-
-							console.log(values)
-
-						}
-						catch (e) {
-
-							log.message(e, 'error')
-
-						}
-
-					}
-				})
+				analyzer.setConfig(configs, callback)
 			})
 
-			console.log(storage)
-
-		}
-
-		/**
-		 * [validator description]
-		 * @return {[type]} [description]
-		 */
-		synck.validator = function () {
-
-			log.message('Initiate synck.validator method')
-
-			if (typeof populator !== "function") {
-
-				log.message('Populator is error, it is not a function', 'error')
-
-				error.push('Populator is error, it is a ' + populator)
-			}
-
 			return synck
 		}
 
-		/**
-		 * [init description]
-		 * @return {[type]} [description]
-		 */
-		synck.embark = function () {
+		if (!bootable) {
 
-			log.message('Initiate synck.embark method')
-
-			synck.prototype.emit('newConfig')
-
-			if (_.size(error) > 0) {
-
-				return log.message(function () {
-
-					return 'Errors found, cannot continue. ERRORS: ', error
-
-				}(), 'error')
-
-				return false
-			}
-
-			return synck
+			log.message('Main :: Synck (code: awidin) is running', 'section', true)
 		}
 
-		eventmap.newConfig = function () {
-
-			log.message('event "newConfig" is called!!!!')
-
-		}
-
-		if (!self) {
-
-			self = synck
-		}
-
-		return self
-
+		return synck
 	}
 
 }).call(this)
