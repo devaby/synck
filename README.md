@@ -1,4 +1,4 @@
 Synck
 =====
 
-Javascript Database Syncrhonisator
+Javascript Database Synchronisator
